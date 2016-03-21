@@ -142,6 +142,7 @@ describe UserDestroyer do
             destroy
             expect(topic.reload.deleted_at).to eq(nil)
             expect(topic.user_id).not_to eq(nil)
+            expect(topic.persisted?).to eq(true)
           end
 
           it "deletes topics started by the deleted user" do
@@ -150,6 +151,7 @@ describe UserDestroyer do
             destroy
             expect(spammer_topic.reload.deleted_at).not_to eq(nil)
             expect(spammer_topic.user_id).to eq(nil)
+            expect(spammer_topic.persisted?).to eq(false)
           end
 
           context "delete_as_spammer is true" do
